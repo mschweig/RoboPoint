@@ -13,10 +13,9 @@ classifiers = [
     "License :: OSI Approved :: Apache Software License",
 ]
 dependencies = [
-    "torch", "torchvision",
-    "transformers", "tokenizers", "sentencepiece", "shortuuid",
-    "accelerate", "peft", "protobuf", "bitsandbytes",
-    "pydantic", "markdown2[all]", "numpy", "scikit-learn",
+    "tokenizers", "sentencepiece", "shortuuid",
+    "accelerate", "peft", "protobuf",
+    "pydantic", "markdown2[all]", "scikit-learn",
     "gradio", "gradio_client",
     "requests", "httpx", "uvicorn", "fastapi",
     "einops", "einops-exts", "timm",
