@@ -16,7 +16,7 @@ dependencies = [
     "tokenizers", "sentencepiece", "shortuuid",
     "accelerate", "peft", "protobuf",
     "pydantic", "markdown2[all]", "scikit-learn",
-    "gradio", "gradio_client", "numpy",
+    "gradio", "gradio_client", "numpy==1.26.4",
     "requests", "httpx", "uvicorn", "fastapi",
     "einops", "einops-exts", "timm",
 ]
