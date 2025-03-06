@@ -1,0 +1,4 @@
+bosdyn-client >= 3.1
+gradio-client
+numpy
+opencv-python
