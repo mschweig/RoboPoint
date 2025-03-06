@@ -78,6 +78,7 @@ def arm_object_grasp(config):
 
     sdk = bosdyn.client.create_standard_sdk("ArmObjectGraspClient")
     robot = sdk.create_robot(config.hostname)
+    robot.logger.info("Connecting to the robot...")
     bosdyn.client.util.authenticate(robot)
     robot.time_sync.wait_for_sync()
 
@@ -133,7 +134,7 @@ def arm_object_grasp(config):
         img, _ = image_to_opencv(image)
 
         # gradio needs a image file or url to process the image
-        cv2.imwrite("grasp.jpg", img)
+        cv2.imwrite("input.jpg", img)
 
         # Depth is a raw bytestream
         cv_depth = np.frombuffer(image_depth.shot.image.data, dtype=np.uint16)
@@ -141,7 +142,7 @@ def arm_object_grasp(config):
 
         # set the image and request to the gradio inference api
         result = client.predict(
-            text=config.request, image=handle_file("grasp.jpg"), image_process_mode="Pad", api_name="/add_text_1"
+            text=config.request, image=handle_file("input.jpg"), image_process_mode="Pad", api_name="/add_text_1"
         )
 
         # run the inference
@@ -161,7 +162,7 @@ def arm_object_grasp(config):
         image_data = base64.b64decode(base64_str)
 
         # Save the camera image to a file (optional)
-        with open("input.jpg", "wb") as f:
+        with open("grasp.jpg", "wb") as f:
             f.write(image_data)
 
         # Extract the coordinates
@@ -178,7 +179,8 @@ def arm_object_grasp(config):
         pick_vec = geometry_pb2.Vec2(x=x, y=y)
 
         # wait for user input to verify the grasp
-        input("Attention: Press Enter to continue and start the grasp...")
+        robot.logger.info("Grasp location selected. Please verify the grasp location from grasp.jpg image")
+        input("Attention: Press Enter to continue and start the grasp")
         robot.logger.info("Starting grasp...")
 
         # Build the proto and 2D to 3D projection using the API call
@@ -223,8 +225,10 @@ def arm_object_grasp(config):
         robot.logger.info("Finished grasp.")
 
         # set the arm to carry
+        robot.logger.info("Setting the arm to carry...")
         carry_cmd = RobotCommandBuilder.arm_carry_command()
         command_client.robot_command(carry_cmd)
+        time.sleep(2)
 
 
 def add_grasp_constraint(config, grasp, robot_state_client):
