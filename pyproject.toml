@@ -14,7 +14,7 @@ classifiers = [
 ]
 dependencies = [
     "tokenizers", "sentencepiece", "shortuuid",
-    "accelerate", "peft", "protobuf",
+    "accelerate", "peft", "protobuf", "opencv-python",
     "pydantic", "markdown2[all]", "scikit-learn",
     "gradio", "gradio_client", "numpy==1.26.4",
     "requests", "httpx", "uvicorn", "fastapi",
